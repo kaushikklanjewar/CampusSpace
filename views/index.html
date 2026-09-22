@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CampusSpace &ndash; Classroom &amp; Lab Availability Finder</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+
+  <!-- ===================== Header ===================== -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <span class="brand-icon">🏫</span>
+        <div>
+          <h1 class="brand-name">CampusSpace</h1>
+          <p class="brand-subtitle">Classroom &amp; Lab Availability Finder</p>
+        </div>
+      </div>
+      <nav class="main-nav">
+        <a href="/" class="nav-link active">Dashboard</a>
+        <a href="/admin" class="nav-link">Admin Panel</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- ===================== Statistics ===================== -->
+    <section class="stats-grid" aria-label="Room statistics">
+      <div class="stat-card">
+        <p class="stat-label">Total Spaces</p>
+        <p class="stat-value" id="stat-total">0</p>
+      </div>
+      <div class="stat-card stat-available">
+        <p class="stat-label">Available</p>
+        <p class="stat-value" id="stat-available">0</p>
+      </div>
+      <div class="stat-card stat-occupied">
+        <p class="stat-label">Occupied</p>
+        <p class="stat-value" id="stat-occupied">0</p>
+      </div>
+      <div class="stat-card stat-maintenance">
+        <p class="stat-label">Maintenance</p>
+        <p class="stat-value" id="stat-maintenance">0</p>
+      </div>
+    </section>
+
+    <!-- ===================== Search + Filters ===================== -->
+    <section class="controls-panel" aria-label="Search and filters">
+      <div class="search-row">
+        <input
+          type="text"
+          id="search-input"
+          class="search-input"
+          placeholder="Search by room name or room ID..."
+          aria-label="Search rooms"
+        />
+      </div>
+
+      <div class="filters-row">
+        <div class="filter-group">
+          <label for="filter-type">Type</label>
+          <select id="filter-type">
+            <option value="All">All</option>
+            <option value="Classroom">Classroom</option>
+            <option value="Computer Lab">Computer Lab</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="filter-building">Building</label>
+          <select id="filter-building">
+            <option value="All">All</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="filter-status">Status</label>
+          <select id="filter-status">
+            <option value="All">All</option>
+            <option value="Available">Available</option>
+            <option value="Occupied">Occupied</option>
+            <option value="Maintenance">Maintenance</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="filter-capacity">Min. Capacity</label>
+          <input type="number" id="filter-capacity" min="0" placeholder="0" />
+        </div>
+
+        <button type="button" id="reset-filters" class="btn btn-secondary">Reset</button>
+      </div>
+    </section>
+
+    <!-- ===================== Room Cards ===================== -->
+    <section aria-label="Rooms">
+      <div id="room-grid" class="room-grid"></div>
+      <p id="empty-state" class="empty-state" hidden>
+        No rooms match your search or filters. Try adjusting them.
+      </p>
+    </section>
+
+  </main>
+
+  <!-- ===================== Footer ===================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>CampusSpace &copy; 2026 &mdash; College Project</p>
+      <p class="commit-id">Build: <span id="commit-id">local</span></p>
+    </div>
+  </footer>
+
+  <script src="/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel &ndash; CampusSpace</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+
+  <!-- ===================== Header ===================== -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <span class="brand-icon">🏫</span>
+        <div>
+          <h1 class="brand-name">CampusSpace</h1>
+          <p class="brand-subtitle">Admin Panel</p>
+        </div>
+      </div>
+      <nav class="main-nav">
+        <a href="/" class="nav-link">Dashboard</a>
+        <a href="/admin" class="nav-link active">Admin Panel</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container admin-main">
+
+    <section class="admin-panel">
+      <h2>Update Room Status</h2>
+      <p class="admin-help">
+        Select a room and choose its new status. The change is reflected
+        immediately on the main dashboard.
+      </p>
+
+      <form id="update-form" class="admin-form">
+        <div class="form-group">
+          <label for="room-select">Room</label>
+          <select id="room-select" name="id" required>
+            <option value="" disabled selected>Loading rooms...</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="status-select">New Status</label>
+          <select id="status-select" name="status" required>
+            <option value="Available">Available</option>
+            <option value="Occupied">Occupied</option>
+            <option value="Maintenance">Maintenance</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update Status</button>
+      </form>
+
+      <p id="form-message" class="form-message" role="status"></p>
+    </section>
+
+    <section class="admin-table-section">
+      <h2>All Spaces</h2>
+      <div class="table-wrapper">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Building</th>
+              <th>Floor</th>
+              <th>Capacity</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="admin-table-body">
+            <!-- rows injected by script.js -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===================== Footer ===================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>CampusSpace &copy; 2026 &mdash; College Project</p>
+      <p class="commit-id">Build: <span id="commit-id">local</span></p>
+    </div>
+  </footer>
+
+  <script src="/script.js"></script>
+</body>
+</html>
