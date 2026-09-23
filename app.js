@@ -39,21 +39,40 @@ app.use(express.static(path.join(__dirname, 'public')));
 const VALID_TYPES = ['Classroom', 'Computer Lab'];
 const VALID_STATUSES = ['Available', 'Occupied', 'Maintenance'];
 
+const BUILDING = 'Main Academic Block';
+
 const rooms = [
-  { id: 'CR-101', name: 'Room 101', type: 'Classroom', building: 'Main Block', floor: 1, capacity: 60, status: 'Available' },
-  { id: 'CR-102', name: 'Room 102', type: 'Classroom', building: 'Main Block', floor: 1, capacity: 60, status: 'Occupied' },
-  { id: 'CR-201', name: 'Room 201', type: 'Classroom', building: 'Main Block', floor: 2, capacity: 45, status: 'Available' },
-  { id: 'CR-202', name: 'Room 202', type: 'Classroom', building: 'Main Block', floor: 2, capacity: 45, status: 'Maintenance' },
-  { id: 'CR-301', name: 'Seminar Hall A', type: 'Classroom', building: 'Academic Block', floor: 3, capacity: 120, status: 'Available' },
-  { id: 'CR-302', name: 'Seminar Hall B', type: 'Classroom', building: 'Academic Block', floor: 3, capacity: 100, status: 'Occupied' },
-  { id: 'LAB-01', name: 'Computer Lab 1', type: 'Computer Lab', building: 'IT Block', floor: 1, capacity: 40, status: 'Available' },
-  { id: 'LAB-02', name: 'Computer Lab 2', type: 'Computer Lab', building: 'IT Block', floor: 1, capacity: 40, status: 'Occupied' },
-  { id: 'LAB-03', name: 'Networking Lab', type: 'Computer Lab', building: 'IT Block', floor: 2, capacity: 35, status: 'Maintenance' },
-  { id: 'LAB-04', name: 'AI & Data Science Lab', type: 'Computer Lab', building: 'IT Block', floor: 2, capacity: 30, status: 'Available' },
-  { id: 'CR-401', name: 'Room 401', type: 'Classroom', building: 'Academic Block', floor: 4, capacity: 50, status: 'Available' },
-  { id: 'CR-402', name: 'Room 402', type: 'Classroom', building: 'Academic Block', floor: 4, capacity: 50, status: 'Occupied' },
-  { id: 'LAB-05', name: 'Electronics Lab', type: 'Computer Lab', building: 'Engineering Block', floor: 1, capacity: 25, status: 'Available' },
-  { id: 'CR-501', name: 'Room 501', type: 'Classroom', building: 'Engineering Block', floor: 2, capacity: 55, status: 'Maintenance' },
+  // Floor 1
+  { id: 'CR-101', name: 'Room 101', type: 'Classroom', building: BUILDING, floor: 1, capacity: 60, status: 'Available' },
+  { id: 'CR-102', name: 'Room 102', type: 'Classroom', building: BUILDING, floor: 1, capacity: 45, status: 'Occupied' },
+  { id: 'CR-103', name: 'Room 103', type: 'Classroom', building: BUILDING, floor: 1, capacity: 70, status: 'Available' },
+  { id: 'CR-104', name: 'Room 104', type: 'Classroom', building: BUILDING, floor: 1, capacity: 50, status: 'Maintenance' },
+  { id: 'LAB-101', name: 'Computer Lab 101', type: 'Computer Lab', building: BUILDING, floor: 1, capacity: 40, status: 'Available' },
+  { id: 'LAB-102', name: 'Computer Lab 102', type: 'Computer Lab', building: BUILDING, floor: 1, capacity: 35, status: 'Occupied' },
+
+  // Floor 2
+  { id: 'CR-201', name: 'Room 201', type: 'Classroom', building: BUILDING, floor: 2, capacity: 70, status: 'Available' },
+  { id: 'CR-202', name: 'Room 202', type: 'Classroom', building: BUILDING, floor: 2, capacity: 50, status: 'Maintenance' },
+  { id: 'CR-203', name: 'Room 203', type: 'Classroom', building: BUILDING, floor: 2, capacity: 65, status: 'Occupied' },
+  { id: 'CR-204', name: 'Room 204', type: 'Classroom', building: BUILDING, floor: 2, capacity: 40, status: 'Available' },
+  { id: 'LAB-201', name: 'Computer Lab 201', type: 'Computer Lab', building: BUILDING, floor: 2, capacity: 35, status: 'Occupied' },
+  { id: 'LAB-202', name: 'Computer Lab 202', type: 'Computer Lab', building: BUILDING, floor: 2, capacity: 30, status: 'Available' },
+
+  // Floor 3
+  { id: 'CR-301', name: 'Room 301', type: 'Classroom', building: BUILDING, floor: 3, capacity: 80, status: 'Occupied' },
+  { id: 'CR-302', name: 'Room 302', type: 'Classroom', building: BUILDING, floor: 3, capacity: 55, status: 'Available' },
+  { id: 'CR-303', name: 'Room 303', type: 'Classroom', building: BUILDING, floor: 3, capacity: 60, status: 'Maintenance' },
+  { id: 'CR-304', name: 'Room 304', type: 'Classroom', building: BUILDING, floor: 3, capacity: 45, status: 'Available' },
+  { id: 'LAB-301', name: 'Computer Lab 301', type: 'Computer Lab', building: BUILDING, floor: 3, capacity: 30, status: 'Maintenance' },
+  { id: 'LAB-302', name: 'Computer Lab 302', type: 'Computer Lab', building: BUILDING, floor: 3, capacity: 40, status: 'Occupied' },
+
+  // Floor 4
+  { id: 'CR-401', name: 'Room 401', type: 'Classroom', building: BUILDING, floor: 4, capacity: 65, status: 'Maintenance' },
+  { id: 'CR-402', name: 'Room 402', type: 'Classroom', building: BUILDING, floor: 4, capacity: 40, status: 'Available' },
+  { id: 'CR-403', name: 'Room 403', type: 'Classroom', building: BUILDING, floor: 4, capacity: 75, status: 'Occupied' },
+  { id: 'CR-404', name: 'Room 404', type: 'Classroom', building: BUILDING, floor: 4, capacity: 50, status: 'Available' },
+  { id: 'LAB-401', name: 'Computer Lab 401', type: 'Computer Lab', building: BUILDING, floor: 4, capacity: 45, status: 'Occupied' },
+  { id: 'LAB-402', name: 'Computer Lab 402', type: 'Computer Lab', building: BUILDING, floor: 4, capacity: 30, status: 'Available' },
 ];
 
 /**

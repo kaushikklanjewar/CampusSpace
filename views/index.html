@@ -61,25 +61,29 @@
 
       <div class="filters-row">
         <div class="filter-group">
+          <label for="filter-floor">Floor</label>
+          <select id="filter-floor">
+            <option value="All">All Floors</option>
+            <option value="1">Floor 1</option>
+            <option value="2">Floor 2</option>
+            <option value="3">Floor 3</option>
+            <option value="4">Floor 4</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
           <label for="filter-type">Type</label>
           <select id="filter-type">
-            <option value="All">All</option>
+            <option value="All">All Types</option>
             <option value="Classroom">Classroom</option>
             <option value="Computer Lab">Computer Lab</option>
           </select>
         </div>
 
         <div class="filter-group">
-          <label for="filter-building">Building</label>
-          <select id="filter-building">
-            <option value="All">All</option>
-          </select>
-        </div>
-
-        <div class="filter-group">
           <label for="filter-status">Status</label>
           <select id="filter-status">
-            <option value="All">All</option>
+            <option value="All">All Statuses</option>
             <option value="Available">Available</option>
             <option value="Occupied">Occupied</option>
             <option value="Maintenance">Maintenance</option>
@@ -88,10 +92,17 @@
 
         <div class="filter-group">
           <label for="filter-capacity">Min. Capacity</label>
-          <input type="number" id="filter-capacity" min="0" placeholder="0" />
+          <select id="filter-capacity">
+            <option value="0">All</option>
+            <option value="30">30+</option>
+            <option value="40">40+</option>
+            <option value="50">50+</option>
+            <option value="60">60+</option>
+            <option value="70">70+</option>
+          </select>
         </div>
 
-        <button type="button" id="reset-filters" class="btn btn-secondary">Reset</button>
+        <button type="button" id="reset-filters" class="btn btn-secondary">Clear Filters</button>
       </div>
     </section>
 
@@ -99,7 +110,7 @@
     <section aria-label="Rooms">
       <div id="room-grid" class="room-grid"></div>
       <p id="empty-state" class="empty-state" hidden>
-        No rooms match your search or filters. Try adjusting them.
+        No classrooms or labs match your current filters.
       </p>
     </section>
 
