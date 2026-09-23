@@ -30,7 +30,7 @@ test('GET /health returns 200 and status "ok"', async () => {
   const res = await fetch(`${baseUrl}/health`);
   const body = await res.json();
 
-  assert.equal(res.status, 200);
+assert.equal(res.statusCode, 500);
   assert.equal(body.status, 'ok');
   assert.ok('commit' in body);
 });
