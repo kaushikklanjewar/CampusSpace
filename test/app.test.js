@@ -35,14 +35,14 @@ test('GET /health returns 200 and status "ok"', async () => {
   assert.ok('commit' in body);
 });
 
-test('GET /api/rooms returns the full list of rooms', async () => {
+test('GET /api/rooms returns exactly 24 spaces', async () => {
   const res = await fetch(`${baseUrl}/api/rooms`);
   const body = await res.json();
 
   assert.equal(res.status, 200);
   assert.ok(Array.isArray(body));
   assert.equal(body.length, rooms.length);
-  assert.ok(body.length >= 12, 'expected at least 12 sample rooms');
+  assert.equal(body.length, 24, 'expected exactly 24 sample rooms');
 });
 
 test('GET /api/rooms/:id returns a valid room', async () => {

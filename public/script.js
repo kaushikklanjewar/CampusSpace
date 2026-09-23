@@ -35,6 +35,13 @@ function statusToClass(status) {
   return `status-${status.toLowerCase()}`;
 }
 
+// Small emoji indicator shown next to the status text on badges, so the
+// status is recognizable at a glance even before reading the label.
+function statusEmoji(status) {
+  const emojis = { Available: '🟢', Occupied: '🔴', Maintenance: '🟡' };
+  return emojis[status] || '';
+}
+
 async function renderFooterCommit() {
   const el = document.getElementById('commit-id');
   if (!el) return;
@@ -45,6 +52,9 @@ async function renderFooterCommit() {
    Dashboard page (index.html)
    ========================================================================== */
 
+// Renders the four statistics cards from whatever room list is passed in.
+// The dashboard calls this with the *filtered* list so the numbers always
+// reflect what's currently on screen.
 function updateStats(rooms) {
   document.getElementById('stat-total').textContent = rooms.length;
   document.getElementById('stat-available').textContent =
@@ -53,18 +63,6 @@ function updateStats(rooms) {
     rooms.filter((r) => r.status === 'Occupied').length;
   document.getElementById('stat-maintenance').textContent =
     rooms.filter((r) => r.status === 'Maintenance').length;
-}
-
-function populateBuildingFilter(rooms) {
-  const select = document.getElementById('filter-building');
-  const buildings = [...new Set(rooms.map((r) => r.building))].sort();
-
-  buildings.forEach((building) => {
-    const option = document.createElement('option');
-    option.value = building;
-    option.textContent = building;
-    select.appendChild(option);
-  });
 }
 
 function createRoomCard(room) {
@@ -77,7 +75,7 @@ function createRoomCard(room) {
         <p class="room-name">${room.name}</p>
         <p class="room-id">${room.id}</p>
       </div>
-      <span class="status-badge ${statusToClass(room.status)}">${room.status}</span>
+      <span class="status-badge ${statusToClass(room.status)}">${statusEmoji(room.status)} ${room.status}</span>
     </div>
     <span class="room-type-tag">${room.type}</span>
     <div class="room-details">
@@ -93,15 +91,18 @@ function createRoomCard(room) {
 function getActiveFilters() {
   return {
     search: document.getElementById('search-input').value.trim().toLowerCase(),
+    floor: document.getElementById('filter-floor').value,
     type: document.getElementById('filter-type').value,
-    building: document.getElementById('filter-building').value,
     status: document.getElementById('filter-status').value,
     minCapacity: Number(document.getElementById('filter-capacity').value) || 0,
   };
 }
 
+// Applies every active filter (search + floor + type + status + capacity)
+// together, so combinations like "Floor 2 + Computer Lab + Available + 40+"
+// all narrow the same list down at once.
 function applyFilters() {
-  const { search, type, building, status, minCapacity } = getActiveFilters();
+  const { search, floor, type, status, minCapacity } = getActiveFilters();
 
   return allRooms.filter((room) => {
     const matchesSearch =
@@ -109,20 +110,23 @@ function applyFilters() {
       room.name.toLowerCase().includes(search) ||
       room.id.toLowerCase().includes(search);
 
+    const matchesFloor = floor === 'All' || String(room.floor) === floor;
     const matchesType = type === 'All' || room.type === type;
-    const matchesBuilding = building === 'All' || room.building === building;
     const matchesStatus = status === 'All' || room.status === status;
     const matchesCapacity = room.capacity >= minCapacity;
 
-    return matchesSearch && matchesType && matchesBuilding && matchesStatus && matchesCapacity;
+    return matchesSearch && matchesFloor && matchesType && matchesStatus && matchesCapacity;
   });
 }
 
+// Re-runs filtering and redraws both the room grid and the statistics
+// cards, so the stats always describe what's currently visible.
 function renderRoomGrid() {
   const grid = document.getElementById('room-grid');
   const emptyState = document.getElementById('empty-state');
   const filtered = applyFilters();
 
+  updateStats(filtered);
   grid.innerHTML = '';
 
   if (filtered.length === 0) {
@@ -135,25 +139,23 @@ function renderRoomGrid() {
 }
 
 function initDashboardControls() {
-  const ids = ['search-input', 'filter-type', 'filter-building', 'filter-status', 'filter-capacity'];
+  const ids = ['search-input', 'filter-floor', 'filter-type', 'filter-status', 'filter-capacity'];
   ids.forEach((id) => {
     document.getElementById(id).addEventListener('input', renderRoomGrid);
   });
 
   document.getElementById('reset-filters').addEventListener('click', () => {
     document.getElementById('search-input').value = '';
+    document.getElementById('filter-floor').value = 'All';
     document.getElementById('filter-type').value = 'All';
-    document.getElementById('filter-building').value = 'All';
     document.getElementById('filter-status').value = 'All';
-    document.getElementById('filter-capacity').value = '';
+    document.getElementById('filter-capacity').value = '0';
     renderRoomGrid();
   });
 }
 
 async function initDashboardPage() {
   allRooms = await fetchRooms();
-  updateStats(allRooms);
-  populateBuildingFilter(allRooms);
   renderRoomGrid();
   initDashboardControls();
 }
@@ -187,7 +189,7 @@ function renderAdminTable(rooms) {
       <td>${room.building}</td>
       <td>${room.floor}</td>
       <td>${room.capacity}</td>
-      <td><span class="status-badge ${statusToClass(room.status)}">${room.status}</span></td>
+      <td><span class="status-badge ${statusToClass(room.status)}">${statusEmoji(room.status)} ${room.status}</span></td>
     `;
     tbody.appendChild(row);
   });
